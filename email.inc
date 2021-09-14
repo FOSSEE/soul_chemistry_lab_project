@@ -181,7 +181,7 @@ Project Guide: ' . $project_guide_name . '
 Project Guide Email: ' . $project_guide_email_id . '
 Project Title: ' . $proposal_data->project_title . '
 
-You can upload your abstract and the completed simulation at: ' . $url . '
+You can upload your report and the project files at: ' . $url . '
 Best Wishes,
 
 !site_name Team,
@@ -241,10 +241,9 @@ Project Guide Email: ' . $project_guide_email_id . '
 Project Title: ' . $proposal_data->project_title . '
 
 Kindly access this link to download the same.
-https://soul.fossee.in/chemistry-lab-project/completed-flowsheet
+https://soul.fossee.in/chemistry-lab-project/completed-labs
 
-Thank you for participating in the SOUL Chemistry Lab Project. You are
-welcome to propose a new flowsheet.
+Thank you for participating in the SOUL Chemistry Lab Project. You are welcome to propose a new chemistry lab project.
 
 Best Wishes,
 
@@ -293,7 +292,7 @@ FOSSEE,IIT Bombay', array(
 Dear !user_name,
 
 We regret to inform you that your soul chemistry lab Project proposal with following details have been
-deleted
+deleted.
 
 Full Name: ' . $proposal_data->name_title . ' ' . $proposal_data->contributor_name . '
 Email: ' . $user_data->mail . '
@@ -338,12 +337,12 @@ FOSSEE,IIT Bombay', array(
 				'body' => t('
 Dear !user_name,
 
-We received your project files for the following details:
+We received your report and project files for the following details:
 
 Full Name : ' . $proposal_data->name_title . ' ' . $proposal_data->contributor_name . '
 Project Title: ' . $proposal_data->project_title . '
 
-The project files are under review. You will be notified when it has been approved.
+The report  and project files are under review. You will be notified when it has been approved.
 
 Best Wishes,
 
@@ -389,7 +388,7 @@ Experiment Title: ' . $experiment_data->title . '
 Solution number: ' . $params['solution_disapproved']['solution_number'] . '
 Caption: ' . $params['solution_disapproved']['solution_caption'] . '
 
-Please ensure that ALL the codes follow guidelines at https://soul.fossee.in/chemistry-lab-project/chemistry-lab-project-submission-guidelines
+Please ensure that ALL the codes follow guidelines at https://soul.fossee.in/chemistry-lab-project/chemistry-lab-project/submission-guidelines
 
 Best Wishes,
 
@@ -482,7 +481,7 @@ Dear !user_name,
 
 You have uploaded following dependency files : ' . $dependency_files . '
 
-Please ensure that ALL the codes follow guidelines at https://soul.fossee.in/soul-chemistry-lab-project/chemistry-lab-project-submission-guidelines
+Please ensure that ALL the codes follow guidelines at https://soul.fossee.in/soul-chemistry-lab-project/chemistry-lab-project/submission-guidelines
 
 Best Wishes,
 

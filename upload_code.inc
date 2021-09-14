@@ -85,9 +85,9 @@ function chemistry_lab_abstract()
 		$abstracts_query_process_filename = "File not uploaded";
 	}
 	$return_html .= '<strong>Contributor Name:</strong><br />' . $proposal_data->name_title . ' ' . $proposal_data->contributor_name . '<br /><br />';
-	$return_html .= '<strong>Title of the Circuit Simulation Project:</strong><br />' . $proposal_data->project_title . '<br /><br />';
-	$return_html .= '<strong>Uploaded abstract of the project:</strong><br />' . $abstract_filename . '<br /><br />';
-	$return_html .= '<strong>Uploaded project files:</strong><br />' . $abstracts_query_process_filename . '<br /><br />';
+	$return_html .= '<strong>Title of the Chemistry Lab Project:</strong><br />' . $proposal_data->project_title . '<br /><br />';
+	$return_html .= '<strong>Uploaded Report file of the project:</strong><br />' . $abstract_filename . '<br /><br />';
+	$return_html .= '<strong>Uploaded project files of the project:</strong><br />' . $abstracts_query_process_filename . '<br /><br />';
 	$return_html .= $url . '<br />';
 	return $return_html;
 }
@@ -166,7 +166,7 @@ function chemistry_lab_upload_abstract_code_form($form, &$form_state)
 	} //!$existing_uploaded_S_file
 	$form['upload_chemistry_lab_code_files'] = array(
 		'#type' => 'file',
-		'#title' => t('Upload the code file'),
+		'#title' => t('Upload the Project file'),
 		'#description' => t('<span style="color:red;">Current File :</span> ' . $existing_uploaded_S_file->filename . '<br />Separate filenames with underscore. No spaces or any special characters allowed in filename.') . '<br />' . t('<span style="color:red;">Allowed file extensions : ') . variable_get('chemistry_lab_code_files_extensions', '') . '</span>'
 	);
 	$form['prop_id'] = array(

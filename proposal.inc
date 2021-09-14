@@ -99,7 +99,8 @@ function chemistry_lab_proposal_form($form, &$form_state, $no_js_use = FALSE)
 		'#maxlength' => 200,
 		'#attributes' => array(
 			'placeholder' => 'Enter full name of your School/Institute/University/Organisation.... '
-		)
+		),
+		'#required' => TRUE
 	);
 	$form['department'] = array(
 		'#type' => 'textfield',
@@ -295,11 +296,11 @@ function chemistry_lab_proposal_form($form, &$form_state, $no_js_use = FALSE)
 		'#collapsible' => FALSE,
 		'#collapsed' => FALSE
 	);
-	$form['samplefile']['samplefilepath'] = array(
+	$form['samplefile']['abstractfilepath'] = array(
 		'#type' => 'file',
 		//'#title' => t('Upload circuit diagram'),
 		'#size' => 48,
-		'#description' => t('Upload filenames with allowed extensions only. No spaces or any special characters allowed in filename.') . '<br />' . t('<span style="color:red;">Allowed file extensions : ') . variable_get('abstract_upload_extensions', '') . '</span>'
+		'#description' => t('Upload filenames with allowed extensions only. No spaces or any special characters allowed in filename.') . '<br />' . t('<span style="color:red;">Allowed file extensions : ') . variable_get('chemistry_lab_abstract_upload_extensions', '') . '</span>'
 	);
 	$form['reference'] = array(
 		'#type' => 'textfield',
@@ -349,7 +350,7 @@ function chemistry_lab_proposal_form($form, &$form_state, $no_js_use = FALSE)
 		'#type' => 'checkboxes',
 		'#title' => t('Terms And Conditions'),
 		'#options' => array(
-			'status' => t('<a href="/term-and-conditions" target="_blank">I agree to the Terms and Conditions</a>')
+			'status' => t('<a href="term-and-conditions" target="_blank">I agree to the Terms and Conditions</a>')
 		),
 		'#required' => TRUE
 	);
@@ -448,7 +449,7 @@ function chemistry_lab_proposal_form_validate($form, &$form_state)
 		} //strlen($form_state['values']['project_title']) > 250
 		else if (strlen($form_state['values']['description']) < 250)
 		{
-			form_set_error('description', t('Minimum charater limit is 500 charaters, please check the length of the description'));
+			form_set_error('description', t('Minimum charater limit is 250 charaters, please check the length of the description'));
 		} //strlen($form_state['values']['project_title']) < 10
 	} //$form_state['values']['project_title'] != ''
 	else
@@ -458,8 +459,8 @@ function chemistry_lab_proposal_form_validate($form, &$form_state)
 if (isset($_FILES['files']))
 	{
 		/* check if atleast one source or result file is uploaded */
-		if (!($_FILES['files']['name']['samplefilepath']))
-			form_set_error('samplefilepath', t('Please upload file.'));
+		if (!($_FILES['files']['name']['abstractfilepath']))
+			form_set_error('abstractfilepath', t('Please upload Abstract file.'));
 		/* check for valid filename extensions */
 		foreach ($_FILES['files']['name'] as $file_form_name => $file_name)
 		{
@@ -477,7 +478,7 @@ if (isset($_FILES['files']))
 						$allowed_extensions_str = variable_get('textbook_companion_source_extensions', '');
 						break;
 				} *///$file_type
-				$allowed_extensions_str = variable_get('abstract_upload_extensions', '');
+				$allowed_extensions_str = variable_get('chemistry_lab_abstract_upload_extensions', '');
 				$allowed_extensions = explode(',', $allowed_extensions_str);
 				$fnames = explode('.', strtolower($_FILES['files']['name'][$file_form_name]));
 				$temp_extension = end($fnames);
@@ -496,7 +497,7 @@ if (isset($_FILES['files']))
 function chemistry_lab_proposal_form_submit($form, &$form_state)
 {
 	global $user;
-	$root_path = soul_chemistry_lab_path();
+	$root_path = chemistry_lab_path();
 	if (!$user->uid)
 	{
 		drupal_set_message('It is mandatory to login on this website to access the proposal form', 'error');
@@ -541,7 +542,7 @@ function chemistry_lab_proposal_form_submit($form, &$form_state)
     dissapproval_reason,
     creation_date, 
     approval_date,
-    samplefilepath,
+    abstractfilepath,
     reference,
     expected_date_of_completion
     ) VALUES
@@ -553,7 +554,7 @@ function chemistry_lab_proposal_form_submit($form, &$form_state)
     :contact_no,
     :university, 
     :department,
-    :city, 
+    :city,
     :state,  
     :country, 
     :pincode,
@@ -570,7 +571,7 @@ function chemistry_lab_proposal_form_submit($form, &$form_state)
     :dissapproval_reason,
     :creation_date, 
     :approval_date,
-    :samplefilepath,
+    :abstractfilepath,
     :reference,
     :expected_date_of_completion
     )";
@@ -600,7 +601,7 @@ function chemistry_lab_proposal_form_submit($form, &$form_state)
 		":creation_date" => time(),
 		":approval_date" => 0,
 		":expected_date_of_completion" => strtotime(date($v['expected_date_of_completion'])),
-		":samplefilepath" => "",
+		":abstractfilepath" => "",
 		":reference" => $v['reference']
 		);
 	//	var_dump($args);die;
@@ -630,9 +631,9 @@ function chemistry_lab_proposal_form_submit($form, &$form_state)
 			/* uploading file */
 			if (move_uploaded_file($_FILES['files']['tmp_name'][$file_form_name], $root_path . $dest_path . $_FILES['files']['name'][$file_form_name]))
 			{
-				$query = "UPDATE {soul_chemistry_lab_proposal} SET samplefilepath = :samplefilepath WHERE id = :id";
+				$query = "UPDATE {soul_chemistry_lab_proposal} SET abstractfilepath = :abstractfilepath WHERE id = :id";
 				$args = array(
-					":samplefilepath" => $dest_path . $_FILES['files']['name'][$file_form_name],
+					":abstractfilepath" => $dest_path . $_FILES['files']['name'][$file_form_name],
 					":id" => $result1
 				);
 				
@@ -672,8 +673,4 @@ function chemistry_lab_proposal_form_submit($form, &$form_state)
 		drupal_set_message('Error sending email message.', 'error');
 	drupal_set_message(t('We have received your soul chemistry lab proposal. We will get back to you soon.'), 'status');
 	drupal_goto('');
-}
-
-function soul_chemistry_lab_path() {
-  return $_SERVER['DOCUMENT_ROOT'] . base_path() . 'soul_uploads/chemistry_lab_uploads/';
 }

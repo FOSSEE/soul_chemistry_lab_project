@@ -359,7 +359,7 @@ function chemistry_lab_menu()
 		'type' => MENU_NORMAL_ITEM,
 		'file' => 'run.inc'
 	);
-	$items['chemistry-lab-project/download/resource-file'] = array(
+	$items['chemistry-lab-project/download/abstract-file'] = array(
 		'title' => 'Download user defined compound file',
 		'description' => 'Download resource file',
 		'page callback' => 'chemistry_lab_download_upload_file',
@@ -617,7 +617,7 @@ function chemistry_lab_permission()
 /*************************** VALIDATION FUNCTIONS *****************************/
 function chemistry_lab_check_valid_filename($file_name)
 {
-	if (!preg_match('/^[0-9a-zA-Z\.\_]+$/', $file_name))
+	if (!preg_match('/^[0-9a-zA-Z\.\_-]+$/', $file_name))
 		return FALSE;
 	else if (substr_count($file_name, ".") > 1)
 		return FALSE;
@@ -759,6 +759,7 @@ function _df_list_of_pincodes()
 	} //$pincode_list_data = $pincode_list->fetchObject()
 	return $pincode;
 }
+
 function _df_list_of_departments()
 {
 	$department = array();
